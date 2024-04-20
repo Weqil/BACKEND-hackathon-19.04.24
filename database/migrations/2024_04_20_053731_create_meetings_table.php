@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('meetings', function (Blueprint $table) {
             $table->id();
             $table->string("title");
-            $table->date("start_time");
+            $table->foreignId("company_id")->constrained("companies");
+            $table->date("start_time")->nullable();
             $table->timestamps();
         });
     }

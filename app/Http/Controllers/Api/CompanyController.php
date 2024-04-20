@@ -64,6 +64,16 @@ class CompanyController extends Controller
         }
     }
 
+    public function update(Request $request, $company_id) {
+
+        $data = $request->only(["name", "meeting_week_day"]);
+
+        $company = Company::findOrFail($company_id);
+        $company->update($data);
+
+        return response()->json(["message" => "Company updated"]);
+    }
+
     public function deleteCompanyInviteCode(Request $request, $company_id, $invite_id){
         try{
             $invite = Company::findOrFail($company_id)->invites()->where("id", $invite_id);
