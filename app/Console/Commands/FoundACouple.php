@@ -48,10 +48,11 @@ class FoundACouple extends Command
     private function coupleUsers($splitedUsers, $company_id){
         foreach($splitedUsers as $coupleUsers){
             if (count($coupleUsers) == 2){
-                Meeting::create([
+                $meeting = Meeting::create([
                     "title" => "Встреча ".$coupleUsers[0]["name"]." с ".$coupleUsers[1]["name"],
                     "company_id" => $company_id
                 ]);
+                $meeting->users()->attach([$coupleUsers[0]["id"],$coupleUsers[1]["id"]]);
             }
             else{
                 echo "sorry ".$coupleUsers[0]["name"];

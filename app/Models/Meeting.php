@@ -10,4 +10,8 @@ class Meeting extends Model
     use HasFactory;
 
     protected $guarded = false;
+
+    public function users(){
+        return $this->belongsToMany(User::class);
+    }
 }
