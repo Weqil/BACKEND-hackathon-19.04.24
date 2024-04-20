@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\OfficeController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\HobbyController;
 use App\Http\Middleware\isCompanyOwner;
 
 
@@ -35,4 +36,10 @@ Route::controller(OfficeController::class)->group(function() {
     Route::post("users/offices", "createOffice")->middleware(['auth:sanctum']);
     Route::get("users/offices", "getOffices")->middleware(['auth:sanctum']);
     Route::delete("users/offices/{id}", "deleteOffices")->middleware(['auth:sanctum']);
+});
+
+Route::controller(HobbyController::class)->group(function() {
+    Route::post("users/hobbyes", "createHobby")->middleware(['auth:sanctum']);
+    Route::get("users/hobbyes", "getHobbyes")->middleware(['auth:sanctum']);
+    Route::delete("users/hobbyes/{id}", "deleteOffices")->middleware(['auth:sanctum']);
 });

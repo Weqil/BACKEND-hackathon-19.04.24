@@ -37,11 +37,13 @@ class User extends Authenticatable
     public function profile() {
         return $this->hasOne(Profile::class);
     }
+
     public function companies() {
         return $this->belongsToMany(Company::class);
     }
+
     public function hobbies() {
-        return $this->belongsToMany(Hobby::class);
+        return $this->hasMany(Hobby::class);
     }
 
     public function offices(): \Illuminate\Database\Eloquent\Relations\HasMany
