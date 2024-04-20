@@ -89,7 +89,7 @@ class CompanyController extends Controller
             $data["name"] = $name;
         }
         if($meetingWeekDay){
-            $data["meetingWeekDay"] = $meetingWeekDay;
+            $data["meeting_week_day"] = $meetingWeekDay;
         }
 
         $company = Company::findOrFail($company_id);
