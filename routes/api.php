@@ -31,6 +31,7 @@ Route::controller(CompanyController::class)->group(function() {
     Route::delete("companies/{company_id}/invites/{invite_id}", "deleteCompanyInviteCode")->middleware(['auth:sanctum',isCompanyOwner::class]);
     Route::get("companies/{company_id}/users", "getAllUsers")->middleware(['auth:sanctum',isCompanyOwner::class]);
     Route::get("companies/{company_id}/users/count", "getAllUsersCount")->middleware(['auth:sanctum',isCompanyOwner::class]);
+    Route::get("companies/users/me", "getAllUsersCount")->middleware(['auth:sanctum',isCompanyOwner::class]);
 });
 
 Route::controller(OfficeController::class)->group(function() {
