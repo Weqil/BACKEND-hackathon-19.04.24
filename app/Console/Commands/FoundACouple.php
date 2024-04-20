@@ -35,6 +35,7 @@ class FoundACouple extends Command
             $users = $this->getCompanyUsers($company_id)->toArray();
             shuffle($users);
             $splitedUsers = $this->splitUsers($users);
+            // dd($splitedUsers);
             $this->coupleUsers($splitedUsers, $company_id);
         }
     }
@@ -48,12 +49,12 @@ class FoundACouple extends Command
         foreach($splitedUsers as $coupleUsers){
             if (count($coupleUsers) == 2){
                 Meeting::create([
-                    "title" => "Встреча ".$coupleUsers[0]->name." с ".$coupleUsers[1]->name,
+                    "title" => "Встреча ".$coupleUsers[0]["name"]." с ".$coupleUsers[1]["name"],
                     "company_id" => $company_id
                 ]);
             }
             else{
-                echo "sorry";
+                echo "sorry ".$coupleUsers[0]["name"];
             }
         }
     }
