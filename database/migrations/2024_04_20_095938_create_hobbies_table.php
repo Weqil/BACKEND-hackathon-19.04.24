@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('hobbies', function (Blueprint $table) {
             $table->id();
-            $table->string("title");
+            $table->string("name");
+            $table->foreignId("user_id")->constrained("users");
             $table->timestamps();
         });
     }
