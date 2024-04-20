@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CompanyController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Middleware\isCompanyOwner;
 
 Route::get('/user', function (Request $request) {
@@ -14,6 +15,10 @@ Route::controller(AuthController::class)->group(function() {
     Route::post('register', 'register');
     Route::post('login', 'login');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
+});
+
+Route::controller(UserController::class)->group(function () {
+    Route::get("users/me", "getMe")->middleware("auth:sanctum");
 });
 
 Route::controller(CompanyController::class)->group(function() {

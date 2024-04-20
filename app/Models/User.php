@@ -39,6 +39,9 @@ class User extends Authenticatable
     public function companies() {
         return $this->belongsToMany(Company::class);
     }
+    public function hobbies() {
+        return $this->belongsToMany(Hobby::class);
+    }
 
     /**
      * Get the attributes that should be cast.
