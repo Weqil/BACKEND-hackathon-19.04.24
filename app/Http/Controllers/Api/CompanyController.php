@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Meeting;
+use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -66,8 +67,8 @@ class CompanyController extends Controller
 
     public function getAllUsersCount($company_id){
         try{
-            $company = Company::findorFail($company_id)->count();
-            $companyUsers = $company->users;
+            $company = Company::findorFail($company_id);
+            $companyUsers = $company->users->count();
 
             return response()->json(["company_users_count" => $companyUsers]);
         }

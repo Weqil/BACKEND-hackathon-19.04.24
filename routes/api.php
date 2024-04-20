@@ -33,6 +33,7 @@ Route::controller(CompanyController::class)->group(function() {
 
     Route::get("companies/{company_id}/users", "getAllUsers")->middleware(['auth:sanctum',isCompanyOwner::class]);
     Route::get("companies/{company_id}/users/count", "getAllUsersCount")->middleware(['auth:sanctum',isCompanyOwner::class]);
+    Route::get("companies/users/me", "getAllUsersCount")->middleware(['auth:sanctum',isCompanyOwner::class]);
 
     Route::get("companies/{company_id}/meetings","getAllMeetings")->middleware(['auth:sanctum',isCompanyOwner::class]);
 });
