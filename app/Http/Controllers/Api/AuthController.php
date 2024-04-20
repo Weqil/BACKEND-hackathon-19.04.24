@@ -9,8 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\auth\RegisterRequest;
 use App\Http\Requests\auth\LoginRequest;
+use App\Models\CompanyInvite;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Services\AuthService;
+use Exception;
 
 class AuthController extends Controller
 {
@@ -18,11 +21,29 @@ class AuthController extends Controller
     {
         $input = $request->all();
         $pass  =  bcrypt($input['password']);
-        $user  =  User::create([
-            'name'=> $input['name'],
-            'password'=> $pass,
-            'email' => $input['email'],
-        ]);
+
+        $authService = new AuthService();
+
+        if($request->get("register_as") == "company"){
+            $user = $authService->registerAsCompany(
+                $input["email"],
+                $pass,
+                $input["name"],
+                $request->get("company")["name"]);
+        }
+        else if ($request->get("register_as") == "user"){
+            try {
+                $user = $authService->registerAsUser(
+                    $input["email"],
+                    $pass,
+                    $input["name"],
+                    $request->get("code")
+                );
+            }
+            catch (Exception $e){
+                return response()->json(["message" => $e->getMessage()], 404);
+            }
+        }
 
         $token = $this->getAccessToken($user);
 
@@ -31,13 +52,13 @@ class AuthController extends Controller
             'message'       => 'register success',
             'access_token'  => $token,
             'token_type'    => 'Bearer',
-            'user'          => $user
+            'user'          => $user,
         ], 200);
 
     }
 
     public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
-    {   
+    {
         $credentials = $request->getCredentials();
         if (!Auth::attempt($credentials)) {
             return response()->json([
@@ -46,11 +67,11 @@ class AuthController extends Controller
                 'cr' => $credentials,
             ], 401);
         }
-        
+
         if (isset($credentials['name'])) {
             $user = User::where('name', $credentials['name'])->firstOrFail();
         } elseif (isset($credentials['email'])) {
-            $user = User::where('email', $credentials['email'])->firstOrFail(); 
+            $user = User::where('email', $credentials['email'])->firstOrFail();
         }
 
         $token = $this->getAccessToken($user);
@@ -86,5 +107,17 @@ class AuthController extends Controller
 
     private function getAccessToken($user){
         return $user->createToken('auth_token')->plainTextToken;
+    }
+
+    private function createUserWithProfile($email, $pass, $name){
+        $user  =  User::create([
+            'name'=> $name,
+            'password'=> $pass,
+            'email' => $email,
+        ]);
+
+        $user->profile()->create();
+
+        return $user;
     }
 }
