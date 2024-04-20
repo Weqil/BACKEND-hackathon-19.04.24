@@ -28,10 +28,7 @@ class RegisterRequest extends FormRequest
             'password_confirmation'  => 'required|same:password',
             "register_as" => "required|in:user,company",
 
-            "company" => [
-                "nullable",
-                "name" => "string"
-            ],
+            "company" => "array",
 
             "code" => "nullable"
         ];

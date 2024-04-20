@@ -77,12 +77,19 @@ class AuthController extends Controller
         $token = $this->getAccessToken($user);
         $cookie = Cookie::forever('Bearer_token', $token);
 
+        $is_company = false;
+
+        if(count($user->companies) > 0){
+            $is_company = true;
+        }
+
         return response()->json([
             'status'        => 'success',
             'message'       => 'login success',
             'access_token'  => $token,
             'token_type'    => 'Bearer',
-            'user'          => $user
+            'user'          => $user,
+            "is_company" => $is_company
         ], 200)->withCookie($cookie);
     }
 
