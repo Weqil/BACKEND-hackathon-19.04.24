@@ -26,6 +26,14 @@ class RegisterRequest extends FormRequest
             'email'                  => 'required|email|unique:users',
             'password'               => 'required|min:8',
             'password_confirmation'  => 'required|same:password',
+            "register_as" => "required|in:user,company",
+
+            "company" => [
+                "nullable",
+                "name" => "string"
+            ],
+
+            "code" => "nullable"
         ];
     }
 }
