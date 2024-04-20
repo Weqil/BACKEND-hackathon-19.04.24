@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\HobbyController;
 use App\Http\Controllers\Api\MeetingController;
 use App\Http\Middleware\isCompanyOwner;
-
+use App\Http\Middleware\UserHasMeeting;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -26,8 +26,8 @@ Route::controller(UserController::class)->group(function () {
 });
 
 Route::controller(MeetingController::class)->group(function (){
-    Route::post("meetings/{meeting_id}/accept", "accept");
-    Route::post("meetings/{meeting_id}/decline", "decline");
+    Route::post("meetings/{meeting_id}/accept", "accept")->middleware(["auth:sanctum", UserHasMeeting::class]);
+    Route::post("meetings/{meeting_id}/decline", "decline")->middleware(["auth:sanctum", UserHasMeeting::class]);
 });
 
 Route::controller(CompanyController::class)->group(function() {
