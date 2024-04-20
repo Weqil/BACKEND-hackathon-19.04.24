@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Meeting extends Model
 {
     use HasFactory;
+
+    protected $guarded = false;
+
+    public function users(){
+        return $this->belongsToMany(User::class);
+    }
 }
