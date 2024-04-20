@@ -78,6 +78,19 @@ class CompanyController extends Controller
         }
     }
 
+    public function getAllMeetingsCount($company_id){
+        try{
+            $company = Company::findorFail($company_id);
+            $companyMeetings = $company->meetings->count();
+
+            return response()->json(["company_meentings_count" => $companyMeetings]);
+        }
+
+        catch (ModelNotFoundException $e){
+            return response()->json(["message" => "company not found"], 404);
+        }
+    }
+
     public function update(Request $request, $company_id) {
 
         $name = $request->get("name");
