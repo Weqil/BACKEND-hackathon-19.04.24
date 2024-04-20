@@ -51,7 +51,7 @@ class FoundACouple extends Command
                 $meeting = Meeting::create([
                     "title" => "Встреча ".$coupleUsers[0]["name"]." с ".$coupleUsers[1]["name"],
                     "company_id" => $company_id
-                ]);
+                ]);   
                 $meeting->users()->attach([$coupleUsers[0]["id"],$coupleUsers[1]["id"]]);
             }
             else{

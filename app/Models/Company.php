@@ -18,4 +18,8 @@ class Company extends Model
     public function invites() {
         return $this->hasMany(CompanyInvite::class);
     }
+
+    public function meetings() {
+        return $this->hasMany(Meeting::class);
+    }
 }

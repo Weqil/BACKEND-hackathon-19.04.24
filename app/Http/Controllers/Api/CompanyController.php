@@ -51,6 +51,19 @@ class CompanyController extends Controller
         }
     }
 
+    public function getAllMeetings(Request $request, $company_id){
+        try{
+            $company = Company::findorFail($company_id);
+            $companyMeetings = $company->meetings;
+
+            return response()->json(["company_meentings" => $companyMeetings]);
+        }
+
+        catch (ModelNotFoundException $e){
+            return response()->json(["message" => "company not found"], 404);
+        }
+    }
+
     public function getAllUsersCount($company_id){
         try{
             $company = Company::findorFail($company_id)->count();
@@ -66,12 +79,27 @@ class CompanyController extends Controller
 
     public function update(Request $request, $company_id) {
 
-        $data = $request->only(["name", "meeting_week_day"]);
+        $name = $request->get("name");
+        $meetingWeekDay = $request->get("meeting_week_day");
+
+        $data = [];
+
+        if($name){
+            $data["name"] = $name;
+        }
+        if($meetingWeekDay){
+            $data["meetingWeekDay"] = $meetingWeekDay;
+        }
 
         $company = Company::findOrFail($company_id);
-        $company->update($data);
+        if(!empty($data)){
+            $company->update($data);
 
-        return response()->json(["message" => "Company updated"]);
+            return response()->json(["message" => "Company updated"]);
+        }
+
+        return response()->json(["message" => "Nothing update"]);
+
     }
 
     public function deleteCompanyInviteCode(Request $request, $company_id, $invite_id){

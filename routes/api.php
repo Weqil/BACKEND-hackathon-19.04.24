@@ -26,11 +26,15 @@ Route::controller(UserController::class)->group(function () {
 
 Route::controller(CompanyController::class)->group(function() {
     Route::patch("companies/{company_id}", "update")->middleware(['auth:sanctum',isCompanyOwner::class]);
+
     Route::post("companies/{company_id}/invites", "createInviteCode")->middleware(['auth:sanctum',isCompanyOwner::class]);
     Route::get("companies/{company_id}/invites", "getAllInviteCodes")->middleware(['auth:sanctum',isCompanyOwner::class]);
     Route::delete("companies/{company_id}/invites/{invite_id}", "deleteCompanyInviteCode")->middleware(['auth:sanctum',isCompanyOwner::class]);
+
     Route::get("companies/{company_id}/users", "getAllUsers")->middleware(['auth:sanctum',isCompanyOwner::class]);
     Route::get("companies/{company_id}/users/count", "getAllUsersCount")->middleware(['auth:sanctum',isCompanyOwner::class]);
+
+    Route::get("companies/{company_id}/meetings","getAllMeetings")->middleware(['auth:sanctum',isCompanyOwner::class]);
 });
 
 Route::controller(OfficeController::class)->group(function() {
