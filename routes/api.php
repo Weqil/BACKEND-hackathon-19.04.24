@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\OfficeController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\HobbyController;
+use App\Http\Controllers\Api\MeetingController;
 use App\Http\Middleware\isCompanyOwner;
 
 
@@ -22,6 +23,11 @@ Route::controller(AuthController::class)->group(function() {
 
 Route::controller(UserController::class)->group(function () {
     Route::get("users/me", "getMe")->middleware("auth:sanctum");
+});
+
+Route::controller(MeetingController::class)->group(function (){
+    Route::post("meetings/{meeting_id}/accept", "accept");
+    Route::post("meetings/{meeting_id}/decline", "decline");
 });
 
 Route::controller(CompanyController::class)->group(function() {
