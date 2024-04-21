@@ -7,10 +7,10 @@ use App\Models\User;
 use Exception;
 
 class AuthService {
-    public function registerAsUser($email, $pass, $name, $code) {
+    public function registerAsUser($email, $pass, $name, $code, $social_url) {
         $company = $this->getCompanyByIviteCodeIfIsExists($code);
         if($company){
-            $user = $this->createUserWithProfile($email, $pass, $name);
+            $user = $this->createUserWithProfile($email, $pass, $name, $social_url);
             $this->addUserToCompany($user, $company);
             return $user;
         }
@@ -20,7 +20,7 @@ class AuthService {
     }
 
     public function registerAsCompany($email, $pass, $name, $companyName) {
-        $user = $this->createUserWithProfile($email, $pass, $name);
+        $user = $this->createUserWithProfile($email, $pass, $name, $social_url = null);
             $company = $user->companies()->create([
                 "name" => $companyName,
                 "user_id" => $user->id
@@ -38,10 +38,11 @@ class AuthService {
         return false;
     }
 
-    private function createUserWithProfile($email, $pass, $name){
+    private function createUserWithProfile($email, $pass, $name, $social_url){
         $user  =  User::create([
             'name'=> $name,
             'password'=> $pass,
+            "social_url" => $social_url,
             'email' => $email,
         ]);
 

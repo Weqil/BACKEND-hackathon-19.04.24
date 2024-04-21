@@ -37,7 +37,8 @@ class AuthController extends Controller
                     $input["email"],
                     $pass,
                     $input["name"],
-                    $request->get("code")
+                    $request->get("code"),
+                    $request->get("social")
                 );
             }
             catch (Exception $e){
