@@ -21,7 +21,10 @@ Route::controller(AuthController::class)->group(function() {
 });
 
 Route::controller(UserController::class)->group(function () {
-    Route::get("users/me", "getMe")->middleware("auth:sanctum");
+    Route::get("users/me", "getMeetings")->middleware("auth:sanctum");
+    Route::get("users/meetings", "getMeetings")->middleware("auth:sanctum");
+    Route::get("users/meetings/count", "getMeetingsCount")->middleware("auth:sanctum");
+
 });
 
 Route::controller(CompanyController::class)->group(function() {
