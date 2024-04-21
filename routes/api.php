@@ -23,6 +23,7 @@ Route::controller(AuthController::class)->group(function() {
 
 Route::controller(UserController::class)->group(function () {
     Route::get("users/me", "getMe")->middleware("auth:sanctum");
+    Route::get("users/{user_id}/meetings", "getAllMeetings")->middleware("auth:sanctum");
 });
 
 Route::controller(MeetingController::class)->group(function (){
@@ -40,6 +41,8 @@ Route::controller(CompanyController::class)->group(function() {
     Route::get("companies/{company_id}/users", "getAllUsers")->middleware(['auth:sanctum',isCompanyOwner::class]);
     Route::get("companies/{company_id}/users/count", "getAllUsersCount")->middleware(['auth:sanctum',isCompanyOwner::class]);
     Route::get("companies/users/me", "getAllUsersCount")->middleware(['auth:sanctum',isCompanyOwner::class]);
+
+    Route::delete("companies/{company_id}/users/{user_id}","deleteUser");
 
     Route::get("companies/{company_id}/meetings","getAllMeetings")->middleware(['auth:sanctum',isCompanyOwner::class]);
     Route::get("companies/{company_id}/meetings/count","getAllMeetingsCount")->middleware(['auth:sanctum',isCompanyOwner::class]);

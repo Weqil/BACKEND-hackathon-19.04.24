@@ -29,7 +29,7 @@ class AddUsersToCompany extends Command
     {
         $company_id = $this->argument("company_id");
         $company = Company::find($company_id);
-        $users  = User::factory()->count(10)->create();
+        $users  = User::factory()->count(100)->create();
         $this->addUsersToCompany($users, $company);
     }
 

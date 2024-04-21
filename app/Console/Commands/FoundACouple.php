@@ -71,7 +71,12 @@ class FoundACouple extends Command
 
             }
             else{
-                Mail::to($coupleUsers[0]['email'])->send(new NotificationAboutCoupleNotFound());
+                try{
+                    Mail::to($coupleUsers[0]['email'])->send(new NotificationAboutCoupleNotFound());
+                }
+                catch(Exception $e){
+                    
+                }
             }
         }
     }

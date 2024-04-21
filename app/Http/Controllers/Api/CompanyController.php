@@ -57,7 +57,7 @@ class CompanyController extends Controller
             $company = Company::findorFail($company_id);
             $companyMeetings = $company->meetings;
 
-            return response()->json(["company_meentings" => $companyMeetings]);
+            return response()->json(["company_meetings" => $companyMeetings]);
         }
 
         catch (ModelNotFoundException $e){
@@ -114,6 +114,15 @@ class CompanyController extends Controller
 
         return response()->json(["message" => "Nothing update"]);
 
+    }
+
+    public function deleteUser(Request $request, $company_id, $user_id){
+        $user = Company::find($company_id)->users()->where("users.id", $user_id)->first();
+        $user->meetings()->detach();
+        $user->companies()->detach();
+        $user->delete();
+
+        return response()->json(["message" => "User deleted"]);
     }
 
     public function deleteCompanyInviteCode(Request $request, $company_id, $invite_id){

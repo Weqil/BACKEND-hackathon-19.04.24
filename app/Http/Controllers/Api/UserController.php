@@ -15,4 +15,10 @@ class UserController extends Controller
             "user" => $user
         ]);
     }
+
+    public function getAllMeetings(Request $request, $user_id){
+        $meetings = User::find($user_id)->meetings;
+
+        return response()->json(["user_meetings"=>$meetings]);
+    }
 }
