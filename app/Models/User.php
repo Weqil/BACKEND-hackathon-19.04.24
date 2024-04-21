@@ -34,11 +34,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function meetings(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Meeting::class);
-    }
-
     public function profile() {
         return $this->hasOne(Profile::class);
     }
