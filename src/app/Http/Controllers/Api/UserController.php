@@ -7,18 +7,19 @@ use App\Models\Meeting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function getMe(Request $request){
-        $user = User::find(auth()->user()->id)->with("companies","hobbies")->first();
+        $user = User::where("id",auth()->user()->id)->with("companies","hobbies")->firstOrFail();
 
         return response()->json([
             "user" => $user
         ]);
     }
 
-    public function getMeetings() 
+    public function getMeetings()
     {
         try{
             $meetings = User::find(auth()->user()->id)->meetings()->get();
@@ -31,7 +32,7 @@ class UserController extends Controller
         }
     }
 
-    public function getMeetingsCount() 
+    public function getMeetingsCount()
     {
         try{
             $meetings = User::find(auth()->user()->id)->meetings()->count();

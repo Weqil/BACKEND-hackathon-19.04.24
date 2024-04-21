@@ -74,6 +74,7 @@ class AuthController extends Controller
             $user = User::where('email', $credentials['email'])->firstOrFail();
         }
 
+
         $token = $this->getAccessToken($user);
         $cookie = Cookie::forever('Bearer_token', $token);
 
@@ -113,7 +114,7 @@ class AuthController extends Controller
     }
 
     private function getAccessToken($user){
-        return $user->createToken('auth_token')->plainTextToken;
+        return $user->createToken('authToken')->plainTextToken;
     }
 
     private function createUserWithProfile($email, $pass, $name){
