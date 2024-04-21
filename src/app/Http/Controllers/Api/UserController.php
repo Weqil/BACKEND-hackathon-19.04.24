@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function getMe(Request $request){
-        $user = User::where("id",auth()->user()->id)->with("companies","hobbies")->firstOrFail();
+        $user = User::where("id",auth()->user()->id)->with("companies","hobbies", "profile")->firstOrFail();
 
         return response()->json([
             "user" => $user
