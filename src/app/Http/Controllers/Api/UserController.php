@@ -33,7 +33,7 @@ class UserController extends Controller
     }
 
     public function getUserById(Request $request, $user_id){
-        return User::where("id", $user_id)->with("profile")->firstOrFail();
+        return response()->json(["user" => User::where("id", $user_id)->with("profile")->firstOrFail()]);
     }
 
     public function getMeetingsCount()
