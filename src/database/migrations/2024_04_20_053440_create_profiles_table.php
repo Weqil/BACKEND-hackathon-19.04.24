@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId("user_id")->constrained("users");
+            $table->string("social_url")->nullable();
             $table->integer("age")->nullable();
             $table->text("about")->nullable();
             $table->timestamps();
+
         });
     }
 

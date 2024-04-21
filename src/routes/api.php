@@ -26,6 +26,8 @@ Route::controller(UserController::class)->group(function () {
     Route::get("users/meetings", "getMeetings")->middleware("auth:sanctum");
     Route::get("users/meetings/count", "getMeetingsCount")->middleware("auth:sanctum");
 
+    Route::get("users/{user_id}", "getUserById")->middleware("auth:sanctum");
+
     Route::get("users/{user_id}/meetings", "getAllMeetings")->middleware("auth:sanctum");
 });
 
