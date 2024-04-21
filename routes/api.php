@@ -7,8 +7,9 @@ use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\OfficeController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\HobbyController;
+use App\Http\Controllers\Api\MeetingController;
 use App\Http\Middleware\isCompanyOwner;
-
+use App\Http\Middleware\UserHasMeeting;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -25,6 +26,12 @@ Route::controller(UserController::class)->group(function () {
     Route::get("users/meetings", "getMeetings")->middleware("auth:sanctum");
     Route::get("users/meetings/count", "getMeetingsCount")->middleware("auth:sanctum");
 
+    Route::get("users/{user_id}/meetings", "getAllMeetings")->middleware("auth:sanctum");
+});
+
+Route::controller(MeetingController::class)->group(function (){
+    Route::post("meetings/{meeting_id}/accept", "accept")->middleware(["auth:sanctum", UserHasMeeting::class]);
+    Route::post("meetings/{meeting_id}/decline", "decline")->middleware(["auth:sanctum", UserHasMeeting::class]);
 });
 
 Route::controller(CompanyController::class)->group(function() {
@@ -37,6 +44,8 @@ Route::controller(CompanyController::class)->group(function() {
     Route::get("companies/{company_id}/users", "getAllUsers")->middleware(['auth:sanctum',isCompanyOwner::class]);
     Route::get("companies/{company_id}/users/count", "getAllUsersCount")->middleware(['auth:sanctum',isCompanyOwner::class]);
     Route::get("companies/users/me", "getAllUsersCount")->middleware(['auth:sanctum',isCompanyOwner::class]);
+
+    Route::delete("companies/{company_id}/users/{user_id}","deleteUser");
 
     Route::get("companies/{company_id}/meetings","getAllMeetings")->middleware(['auth:sanctum',isCompanyOwner::class]);
     Route::get("companies/{company_id}/meetings/count","getAllMeetingsCount")->middleware(['auth:sanctum',isCompanyOwner::class]);

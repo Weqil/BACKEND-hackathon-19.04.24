@@ -56,6 +56,10 @@ class User extends Authenticatable
         return $this->hasMany(Office::class);
     }
 
+    public function meetings(){
+        return $this->belongsToMany(Meeting::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
